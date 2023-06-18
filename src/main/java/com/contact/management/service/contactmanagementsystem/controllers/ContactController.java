@@ -25,7 +25,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-
 @RestController
 @RequestMapping("/contacts")
 public class ContactController {
@@ -44,7 +43,7 @@ public class ContactController {
   @GetMapping("/{id}")
   public ResponseEntity<List<Contact>> getAllContacts(
       @Parameter(description = "ID of the user who want all the contacts") @PathVariable("id") Long userId,
-      @RequestHeader(value = "access_token") String accessToken) {
+      @Parameter(description = "Access token of the user") @RequestHeader(value = "access_token") String accessToken) {
     try {
       List<Contact> contacts = contactService.getAllContacts(userId);
       return new ResponseEntity<>(contacts, HttpStatus.OK);
@@ -66,7 +65,7 @@ public class ContactController {
       @Parameter(description = "ID of the user who want all the contacts") @RequestParam("id") Long userId,
       @Parameter(description = "Keyword to search for in contacts (first name, last name, or email)")
       @RequestParam String key,
-      @RequestHeader(value = "access_token") String accessToken) {
+      @Parameter(description = "Access token of the user") @RequestHeader(value = "access_token") String accessToken) {
     try {
       List<Contact> contacts = contactService.searchContacts(key, userId);
       return new ResponseEntity<>(contacts, HttpStatus.OK);
@@ -90,7 +89,7 @@ public class ContactController {
   public ResponseEntity<Contact> createContact(
       @Parameter(description = "ID of the user who want all the contacts") @RequestParam("id") Long userId,
       @RequestBody Contact contact,
-      @RequestHeader(value = "access_token") String accessToken) {
+      @Parameter(description = "Access token of the user") @RequestHeader(value = "access_token") String accessToken) {
     try {
       Contact newContact = contactService.createContact(contact, userId);
       return new ResponseEntity<>(newContact, HttpStatus.OK);
@@ -116,7 +115,7 @@ public class ContactController {
       @Parameter(description = "ID of the user who want all the contacts") @RequestParam("user_id") Long userId,
       @Parameter(description = "ID of the contact to update") @PathVariable("id") Long id,
       @RequestBody Contact updatedContactDTO,
-      @RequestHeader(value = "access_token") String accessToken)
+      @Parameter(description = "Access token of the user") @RequestHeader(value = "access_token") String accessToken)
       throws ContactNotFoundException {
     try {
       Contact contact = contactService.updateContact(id, updatedContactDTO, userId);
@@ -140,7 +139,7 @@ public class ContactController {
   public ResponseEntity<Boolean> deleteContact(
       @Parameter(description = "ID of the user who want all the contacts") @RequestParam("user_id") Long userId,
       @Parameter(description = "ID of the contact to delete") @PathVariable("id") Long id,
-      @RequestHeader(value = "access_token") String accessToken) {
+      @Parameter(description = "Access token of the user") @RequestHeader(value = "access_token") String accessToken) {
     try {
       contactService.deleteContact(id, userId);
       return new ResponseEntity<>(true, HttpStatus.OK);
